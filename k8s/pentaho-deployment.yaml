@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pentaho-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pentaho
+  template:
+    metadata:
+      labels:
+        app: pentaho
+    spec:
+      containers:
+        - name: pentaho
+          image: samuelwillyanto/pentaho-image-rkt:latest
+          ports:
+            - containerPort: 31678  # Port SSH
+          envFrom:
+            - configMapRef:
+                name: pentaho-config

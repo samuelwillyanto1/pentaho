@@ -1,0 +1,20 @@
+version: '3'
+services:
+  pentaho_server:
+    image: alpine:latest
+    ports:
+      - "4040:8080"
+    volumes:
+      - ./logs:/pentaho-server/pentaho-server/pentaho-solutions/system/logs
+      - /home/samuel/pentaho/pentaho-cron-logs:/home/tobaman/pentaho/pentaho-cron-logs
+      - /home/samuel/pentaho/data-integration:/home/tobaman/pentaho/data-integration
+      - /home/samuel/transformation/:/opt/reckitt/01
+    container_name: pentaho_server_reckitt
+    environment:
+      - DATABASE_HOST=host.docker.internal # Use this address to connect to the host's network
+      - DATABASE_PORT=5432 # Adjust the port as needed
+      - DATABASE_NAME=rbpentaholog
+      - DATABASE_USER=pentaho
+      - DATABASE_PASSWORD=pentaho1234
+    restart: always
+    command: /bin/sh -c "apk update && apk add openjdk11 && tail -f /dev/null"
